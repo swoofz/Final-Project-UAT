@@ -368,7 +368,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1289278647}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.83, y: 10.85, z: 0}
+  m_LocalPosition: {x: -11.16, y: -2.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2039625476}
@@ -406,9 +406,9 @@ PlatformEffector2D:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RotationalOffset: 0
-  m_UseOneWay: 1
+  m_UseOneWay: 0
   m_UseOneWayGrouping: 0
-  m_SurfaceArc: 180
+  m_SurfaceArc: 360
   m_UseSideFriction: 0
   m_UseSideBounce: 0
   m_SideArc: 1
@@ -525,11 +525,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4048301329623434, guid: ef4f1a3d99f82c34a9d9e28fa72b8b22, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -21.94
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4048301329623434, guid: ef4f1a3d99f82c34a9d9e28fa72b8b22, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -12.02
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4048301329623434, guid: ef4f1a3d99f82c34a9d9e28fa72b8b22, type: 2}
       propertyPath: m_LocalPosition.z
@@ -554,11 +554,6 @@ Prefab:
     - target: {fileID: 4048301329623434, guid: ef4f1a3d99f82c34a9d9e28fa72b8b22, type: 2}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 60992607635445566, guid: ef4f1a3d99f82c34a9d9e28fa72b8b22,
-        type: 2}
-      propertyPath: m_IsTrigger
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef4f1a3d99f82c34a9d9e28fa72b8b22, type: 2}
