@@ -27,4 +27,30 @@ public class Knight : Pawn {
 
         return base.IsGrounded();
     }
+
+    public override void Attack(string attState, float damage) {
+        if (attState == "Attack") {
+            // Do Basic Attack
+        }
+        if (attState == "JumpAttack") {
+            // Do a Jump Attack
+        }
+        if (attState == "ChargeAtt") {
+            // Do a Charge Attack
+        }
+    }
+
+    // Attack stuff below
+    void Attack(float damage) {
+        // Do Attack Actions
+    }
+
+    void JumpAttack(float damage) {
+        // Do Jump Attack Actions
+    }
+
+    void ChargeAttack(float damage) {
+        // Charge Attack then send the damage
+    }
+
 }

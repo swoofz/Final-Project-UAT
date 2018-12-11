@@ -4,7 +4,16 @@ using UnityEngine;
 
 public class PlayerController : Controller {
 
-    private CharacterState playerState;             // Create a varaible to hold our state
+    /*****************************************************************************************
+     * How to make random character selection (probably in the gameManager Script)
+     * private Character character (enum with characters)
+     * private int num for random numbers to pick the character
+     * 
+     * num = Random.Range(0,4);
+     * character = (Characters)num;
+     *****************************************************************************************/
+
+    private CharacterState playerState;     // Create a varaible to hold our state
     private float direction;                // Create a varaible to store the direction
     private Rigidbody2D rb;                 // Create a varaible to store our Rigibody component
 
@@ -27,9 +36,10 @@ public class PlayerController : Controller {
 
         if (pawn.IsGrounded()) {
             rb.gravityScale = 0;
-            if (rb.velocity.y < 0) {
-                rb.velocity = new Vector2(rb.velocity.x, 0);
-            }
+            rb.velocity = Vector2.zero;
+            //if (rb.velocity.y < 0) {
+            //    rb.velocity = new Vector2(rb.velocity.x, 0);
+            //}
         } else {
             rb.gravityScale = 1;
         }
@@ -48,7 +58,9 @@ public class PlayerController : Controller {
         }
 
         if (attack) {
-            direction = 0;
+            if (pawn.IsGrounded()) {
+                direction = 0;
+            }
             cntD -= Time.deltaTime;
             if (cntD < 0) {
                 attack = false;
@@ -84,6 +96,10 @@ public class PlayerController : Controller {
 
         if (!pawn.IsGrounded()) {
             playerState = CharacterState.Jump;
+
+            if (attack) {
+                playerState = CharacterState.JumpAtt;
+            }
         }
 
         return playerState;

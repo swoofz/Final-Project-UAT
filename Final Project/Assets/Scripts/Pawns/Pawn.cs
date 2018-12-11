@@ -30,7 +30,7 @@ public class Pawn : MonoBehaviour {
         rb.velocity = Vector3.up * jumpDirection * jumpForce;
     }
 
-    public virtual void Attack(float damage) {
+    public virtual void Attack(string attState, float damage) {
         // Do nothing from this component
     }
 
