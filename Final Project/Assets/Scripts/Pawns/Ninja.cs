@@ -5,5 +5,16 @@ using UnityEngine;
 public class Ninja : Pawn {
 
 
+    public override bool IsGrounded() {
+        // Ninja is grounded 
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 2.8f);
+        if (hit.collider != null) {
+            if (hit.collider.tag == "Ground" || hit.collider.tag == "Platform") {
+                return true;
+            }
+        }
+
+        return base.IsGrounded();
+    }
 
 }

@@ -6,8 +6,7 @@ using UnityEngine;
 public class Pawn : MonoBehaviour {
 
     public float speed;     // Create a variable to controller character's speed
-
-
+    public float jumpForce; // Create a variable to controller character's jumpForce
 
     public virtual void MoveDirection(float direction) {
         // Move right or left
@@ -17,18 +16,18 @@ public class Pawn : MonoBehaviour {
     }
 
     public virtual void ChangeSpriteDirection(float direction) {
-        SpriteRenderer sr = GetComponent<SpriteRenderer>();
         if (direction != 0) {
             if (direction > 0) {
-                sr.flipX = false;
+                transform.rotation = Quaternion.Euler(0, 0, 0);
             } else {
-                sr.flipX = true;
+                transform.rotation = Quaternion.Euler(0, 180, 0);
             }
         }
     }
 
-    public virtual void Jump(float jumpForce) {
-        // Go up or down
+    public virtual void Jump(float jumpDirection, Rigidbody2D rb) {
+        GameObject target = transform.parent.gameObject;
+        rb.velocity = Vector3.up * jumpDirection * jumpForce;
     }
 
     public virtual void Attack(float damage) {
@@ -36,11 +35,16 @@ public class Pawn : MonoBehaviour {
     }
 
     public virtual void ChangeAnimationState(string state) {
-        // Handle animation in spefic component that inheriet from Pawn
+        // Handle extra animations in spefic component that inheriet from Pawn
+        Animator anim = GetComponent<Animator>();
+
+        if (state == "Idle" || state == "Run" || state == "Jump" || state == "Attack") {
+            anim.Play(state);
+        }
     }
 
     public virtual bool IsGrounded() {
-        // find the what makes this true
+        // find the what makes this true for each pawn
 
         return false;
     }
