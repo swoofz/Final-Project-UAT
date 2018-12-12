@@ -17,8 +17,14 @@ public class PlayerController : Controller {
     private float direction;                // Create a varaible to store the direction
     private Rigidbody2D rb;                 // Create a varaible to store our Rigibody component
 
-    private bool attack;
+    private bool attacking;
     private float cnt, cntD;
+    private float attDamage;
+    private Pawn target;
+    private int hitDirection;
+    private bool isGrounded;
+    private int jumpCount;
+    private bool shoot;
 
 
 	// Use this for initialization
@@ -30,56 +36,48 @@ public class PlayerController : Controller {
 	
 	// Update is called once per frame
 	void Update () {
-        playerState = ChangeState();
         direction = Input.GetAxis("Horizontal");
-        pawn.ChangeAnimationState(playerState.ToString());
+        isGrounded = pawn.IsGrounded();
 
-        if (pawn.IsGrounded()) {
+
+        if (isGrounded) {
             rb.gravityScale = 0;
-            rb.velocity = Vector2.zero;
-            //if (rb.velocity.y < 0) {
-            //    rb.velocity = new Vector2(rb.velocity.x, 0);
-            //}
+            if (rb.velocity.y < 0) {
+                rb.velocity = Vector2.zero;
+            }
+            jumpCount = pawn.jumps;
         } else {
             rb.gravityScale = 1;
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && pawn.IsGrounded()) {
-            if (Input.GetKey(KeyCode.S)) {          // Jump Down
-                pawn.Jump(-1, rb);
-            } else {                                // Jump Up
-                pawn.Jump(1, rb);
-            }
+        if (jumpCount > 0) {
+            Jump();
         }
 
-        if (Input.GetKeyDown(KeyCode.Mouse0)) {
-            attack = true;
+        if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Mouse1)) {
+            attacking = true;
             cntD = cnt;
+
+            if (Input.GetKeyDown(KeyCode.Mouse1) && !pawn.GetComponent<Knight>()) {
+                pawn.Shoot();
+                shoot = true;
+            }
+
+            if (pawn.GetComponent<Knight>()) {
+                // do a charge Attack when made
+            }
         }
 
-        if (attack) {
-            if (pawn.IsGrounded()) {
-                direction = 0;
-            }
-            cntD -= Time.deltaTime;
-            if (cntD < 0) {
-                attack = false;
-            }
+        if (attacking) {
+            AttackTimer();
         }
 
-
+        playerState = ChangeState();
+        pawn.ChangeAnimationState(playerState.ToString());
+        GetHitDirection();
         pawn.MoveDirection(direction);
     }
 
-    //void Damage() {
-    //    // the effect of taking damage (idea)
-    //    if (Input.GetKeyDown(KeyCode.E)) {
-    //        rb.AddForce(new Vector2(0.5f, 0.7f) * 500);
-    //    }
-    //    if (Input.GetKeyDown(KeyCode.Q)) {
-    //        rb.AddForce(new Vector2(-0.5f, 0.7f) * 500);
-    //    }
-    //}
 
     CharacterState ChangeState() {
         if (direction == 0) {
@@ -90,24 +88,81 @@ public class PlayerController : Controller {
             playerState = CharacterState.Run;
         }
 
-        if (attack) {
+        if (attacking) {
             playerState = CharacterState.Attack;
+
+            if (shoot) {
+                playerState = CharacterState.Shoot;
+                if (pawn.GetComponent<Ninja>()) {
+                    playerState = CharacterState.Throw;
+                }
+            }
         }
 
-        if (!pawn.IsGrounded()) {
+        if (!isGrounded) {
             playerState = CharacterState.Jump;
 
-            if (attack) {
+            if (attacking) {
                 playerState = CharacterState.JumpAtt;
+
+                if (shoot) {
+                    playerState = CharacterState.Shoot;
+                    if (pawn.GetComponent<Ninja>()) {
+                        playerState = CharacterState.Throw;
+                    }
+                }
             }
         }
 
         return playerState;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision) {
-        if (attack) {
-            Debug.Log(collision.gameObject.name);
+    void OnTriggerEnter2D(Collider2D collision) {
+        if (attacking) {
+            string hitTarget = collision.gameObject.name;
+            attDamage = pawn.Attack();
+
+            if (collision.gameObject.transform.parent != null) {
+                if (collision.gameObject.transform.parent.GetComponent<Pawn>() != null) {
+                    target = collision.gameObject.transform.parent.GetComponent<Pawn>();
+                }
+            }
+
+            if (hitTarget == "Head" || hitTarget == "Body" || hitTarget == "Legs") {
+                if (target != null) {
+                    target.TakeDamage(attDamage, hitDirection, hitTarget);
+                }
+            }
+        }
+    }
+
+    void GetHitDirection() {
+        if (direction > 0) {
+            hitDirection = 1;
+        }
+
+        if (direction < 0) {
+            hitDirection = -1;
+        }
+    }
+
+    void Jump() {
+        if (Input.GetKeyDown(KeyCode.Space)) {  // Jump Up
+            pawn.Jump(1);
+            jumpCount -= 1;
+            pawn.ChangeAnimationState("Idle");
+            pawn.ChangeAnimationState("Jump");
+        }
+    }
+
+    void AttackTimer() {
+        if (pawn.IsGrounded()) {
+            direction = 0;
+        }
+        cntD -= Time.deltaTime;
+        if (cntD < 0) {
+            attacking = false;
+            shoot = false;
         }
     }
 }

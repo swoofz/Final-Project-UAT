@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BoxCollider2D), typeof(SpriteRenderer), typeof(Animator))]
+[RequireComponent(typeof(SpriteRenderer), typeof(Animator))]
 public class Pawn : MonoBehaviour {
 
-    public float speed;     // Create a variable to controller character's speed
-    public float jumpForce; // Create a variable to controller character's jumpForce
+    public float speed;         // Create a variable to controller character's speed
+    public float jumpForce;     // Create a variable to controller character's jumpForce
+    public float attackDamage;  // Create a variable for character attack damage
+    public int jumps;       // Create a variable for how many jumps and character can do
+
+    [HideInInspector] public float damagePercentage;    // Create a varaible for character damage over time multipled
+
 
     public virtual void MoveDirection(float direction) {
         // Move right or left
@@ -25,13 +30,15 @@ public class Pawn : MonoBehaviour {
         }
     }
 
-    public virtual void Jump(float jumpDirection, Rigidbody2D rb) {
-        GameObject target = transform.parent.gameObject;
+    public virtual void Jump(float jumpDirection) {
+        Rigidbody2D rb = transform.parent.GetComponent<Rigidbody2D>();
         rb.velocity = Vector3.up * jumpDirection * jumpForce;
     }
 
-    public virtual void Attack(string attState, float damage) {
-        // Do nothing from this component
+    public virtual bool IsGrounded() {
+        // Find what makes this true for each pawn
+
+        return false;
     }
 
     public virtual void ChangeAnimationState(string state) {
@@ -43,9 +50,18 @@ public class Pawn : MonoBehaviour {
         }
     }
 
-    public virtual bool IsGrounded() {
-        // find the what makes this true for each pawn
+    public virtual float Attack() {
+        // Return damage
 
-        return false;
+        return attackDamage;
     }
+
+    public virtual void TakeDamage(float damage, float direction, string hitSpot) {
+        // Call to take damage with increase over time of getting hit
+    }
+
+    public virtual void Shoot() {
+        // For pawn that have shoot or throw
+    }
+
 }

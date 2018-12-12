@@ -18,9 +18,13 @@ public class Knight : Pawn {
 
     public override bool IsGrounded() {
         // Knight is grounded 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 3f);
+        Transform feet = transform.GetChild(4);
+        RaycastHit2D hit = Physics2D.Raycast(feet.position, Vector2.down, .5f);
         if (hit.collider != null) {
             if (hit.collider.tag == "Ground" || hit.collider.tag == "Platform") {
+                if (hit.collider.tag == "Platform" && Input.GetKey(KeyCode.S)) {
+                    return false;
+                }
                 return true;
             }
         }
@@ -28,29 +32,8 @@ public class Knight : Pawn {
         return base.IsGrounded();
     }
 
-    public override void Attack(string attState, float damage) {
-        if (attState == "Attack") {
-            // Do Basic Attack
-        }
-        if (attState == "JumpAttack") {
-            // Do a Jump Attack
-        }
-        if (attState == "ChargeAtt") {
-            // Do a Charge Attack
-        }
+    public override float Attack() {
+        // TODO:: Add a charge Attack after add charge attack animation
+        return attackDamage;
     }
-
-    // Attack stuff below
-    void Attack(float damage) {
-        // Do Attack Actions
-    }
-
-    void JumpAttack(float damage) {
-        // Do Jump Attack Actions
-    }
-
-    void ChargeAttack(float damage) {
-        // Charge Attack then send the damage
-    }
-
 }
