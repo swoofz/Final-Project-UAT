@@ -16,6 +16,7 @@ public class PlayerController : Controller {
     private CharacterState playerState;     // Create a varaible to hold our state
     private float direction;                // Create a varaible to store the direction
     private Rigidbody2D rb;                 // Create a varaible to store our Rigibody component
+    private int lives;
 
     private bool attacking;
     private float cnt, cntD;
@@ -31,6 +32,7 @@ public class PlayerController : Controller {
 	void Start () {
         pawn = gameObject.GetComponentInChildren<Pawn>();
         rb = GetComponent<Rigidbody2D>();
+        lives = GameManager.instance.playerLives;
         cnt = 0.35f;
     }
 	
@@ -48,6 +50,10 @@ public class PlayerController : Controller {
             jumpCount = pawn.jumps;
         } else {
             rb.gravityScale = 1;
+
+            if (rb.velocity.y < -20f) {
+                rb.velocity = new Vector2(rb.velocity.x, -20f);
+            }
         }
 
         if (jumpCount > 0) {
@@ -104,6 +110,9 @@ public class PlayerController : Controller {
 
             if (attacking) {
                 playerState = CharacterState.JumpAtt;
+                if (pawn.GetComponent<Adverturer>()) {
+                    playerState = CharacterState.Attack;
+                }
 
                 if (shoot) {
                     playerState = CharacterState.Shoot;
@@ -133,6 +142,16 @@ public class PlayerController : Controller {
                     target.TakeDamage(attDamage, hitDirection, hitTarget);
                 }
             }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other) {
+        if (other.gameObject.tag == "Boundary") {
+            lives -= 1;
+            GameManager.instance.playerLives = lives;
+            damagePercent = 0;
+            rb.velocity = Vector2.zero;
+            transform.position = new Vector3(0, 30, 0);
         }
     }
 

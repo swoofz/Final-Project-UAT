@@ -340,7 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 11
-  jumpForce: 9
+  jumpForce: 10
   attackDamage: 4
   jumps: 3
   damagePercentage: 0

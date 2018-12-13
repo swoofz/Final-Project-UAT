@@ -339,10 +339,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3747296d4d108742b4dfdd0ce00309d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 13
+  speed: 11
   jumpForce: 10
   attackDamage: 3
-  jumps: 4
+  jumps: 3
   damagePercentage: 0
   kunia: {fileID: 1984380298407382, guid: a9fd241f3fe35ac4bbdc554c86c6014b, type: 2}
 --- !u!212 &212296347498205154

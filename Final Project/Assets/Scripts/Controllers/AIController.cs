@@ -10,12 +10,14 @@ public class AIController : Controller {
     private CircleCollider2D circle;
     private Rigidbody2D rb;
     private Pawn hitTarget;
+    private int lives;
     private float attDamage;
     private bool isGrounded;
     private GameObject target;
     private float jumpCount;
     private float cnt, cntD;
     private float hitDirection;
+    private float jumpTimer;
 
     private float direction;
 
@@ -31,8 +33,10 @@ public class AIController : Controller {
         pawn = gameObject.GetComponentInChildren<Pawn>();
         rb = GetComponent<Rigidbody2D>();
         SetUpCircleCollider();
+        lives = GameManager.instance.AILives;
         jumpCount = pawn.jumps;
         cnt = 0.8f;
+        jumpTimer = 1f;
         ChangeOptions(Options.Idle);
     }
 
@@ -48,9 +52,12 @@ public class AIController : Controller {
             jumpCount = pawn.jumps;
         } else {
             rb.gravityScale = 1;
+
+            if (rb.velocity.y < -20f) {
+                rb.velocity = new Vector2(rb.velocity.x, -20f);
+            }
         }
 
-        // FSM Logic
         if (target != null) {
             detect = true;
             canSee = CanSee();
@@ -63,6 +70,11 @@ public class AIController : Controller {
         if (attacking) {
             AttackTimer();
         }
+
+        if (jumpCount > 0) {
+            RandomJump();
+        }
+
 
         aiState = ChangeAIState();
         pawn.ChangeAnimationState(aiState);
@@ -190,12 +202,12 @@ public class AIController : Controller {
     }
 
     void OnTriggerExit2D(Collider2D other) {
-        if (other.gameObject.transform.parent != null) {
-            if (other.gameObject.transform.parent.tag == "Character") {
-                if (target == other.gameObject.transform.parent.transform.parent.gameObject) { 
-                    target = null;
-                }
-            }
+        if (other.gameObject.tag == "Boundary") {
+            lives -= 1;
+            GameManager.instance.AILives = lives;
+            damagePercent = 0;
+            rb.velocity = Vector2.zero;
+            transform.position = new Vector3(0, 30, 0);
         }
     }
 
@@ -214,9 +226,9 @@ public class AIController : Controller {
 
     void GetDirection(Vector3 vector) {
         if (vector.x > 2.9f) {
-            direction = 1;
+            direction = .5f;
         } else if (vector.x < -2.9f) {
-            direction = -1;
+            direction = -.5f;
         } else {
             direction = 0;
         }
@@ -224,14 +236,11 @@ public class AIController : Controller {
 
     void Attack() {
         // Possible to attack
-        int num = Random.Range(0, 3);
+        int num = Random.Range(1, 3);
         if (pawn.GetComponent<Knight>()) {
-            num = Random.Range(0, 2);
+            num = 1;
         }
 
-        if (num == 0) { // Don't Attack
-            opt = "GoTo";
-        }
         if (num == 1) {     // Melee Attack
             bool inRange = InRange();
             if (inRange) {
@@ -291,5 +300,22 @@ public class AIController : Controller {
             attacking = false;
             shoot = false;
         }
+    }
+
+    void RandomJump() {
+        jumpTimer -= Time.deltaTime;
+        if (jumpTimer < 0) {
+            int num = Random.Range(1, 11);
+            Jump(num);
+        }
+    }
+
+    void Jump(int num) {
+        if (num % 2 == 0) {
+            pawn.Jump(1);
+            jumpCount -= 1;
+        }
+
+        jumpTimer = 1f;
     }
 }

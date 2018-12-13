@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1399608365617510
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ CircleCollider2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1081340765558884}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -310,10 +310,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f797a5884eae3c4cb3772b9d376c3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  jumpForce: 15
+  speed: 11
+  jumpForce: 10
   attackDamage: 5
-  jumps: 3
+  jumps: 2
   damagePercentage: 0
 --- !u!212 &212495613872502330
 SpriteRenderer:
