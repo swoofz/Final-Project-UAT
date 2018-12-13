@@ -7,6 +7,7 @@ TagManager:
   - Ground
   - Platform
   - Character
+  - AI
   layers:
   - Default
   - TransparentFX

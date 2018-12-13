@@ -40,13 +40,19 @@ public class Adverturer : Pawn {
     }
 
     public override void Shoot() {
+        GameObject shotLocation = null;
         if (GameObject.Find("Bullets") == null) {
             bullets = new GameObject("Bullets");
         } else {
             bullets = GameObject.Find("Bullets");
         }
 
-        GameObject shotLocation = GameObject.Find("Shoot");
+        foreach (Transform child in transform) {
+            if (child.name == "Shoot") {
+                shotLocation = child.gameObject;
+            }
+        }
+
         GameObject clone = Instantiate(bullet, shotLocation.transform.position, shotLocation.transform.rotation);
         clone.transform.parent = bullets.transform;
     }

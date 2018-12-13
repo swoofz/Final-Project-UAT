@@ -36,36 +36,42 @@ public class Ninja : Pawn {
 
     public override void TakeDamage(float damage, float direction, string hitSpot) {
         Rigidbody2D rb = transform.parent.GetComponent<Rigidbody2D>();
-        Vector2 test = Vector2.zero;
+        Vector2 forceDirection = Vector2.zero;
         damagePercentage += damage;
 
 
         if (hitSpot == "Head") {
-            test = new Vector2(0.8f * direction, -1f) * damage;
+            forceDirection = new Vector2(0.8f * direction, -1f) * damage;
             if (IsGrounded()) {
-                test = new Vector2(0.8f, 0f) * direction * damage;
+                forceDirection = new Vector2(0.8f, .2f) * direction * damage;
             }
         }
 
         if (hitSpot == "Body") {
-            test = new Vector2(1f, 0f) * direction * damage;
+            forceDirection = new Vector2(1f, .2f) * direction * damage;
         }
 
         if (hitSpot == "Legs") {
-            test = new Vector2(0.8f * direction, 1f) * damage;
+            forceDirection = new Vector2(0.8f * direction, 1f) * damage;
         }
 
-        rb.AddForce(test * damagePercentage);
+        rb.AddForce(forceDirection * damagePercentage);
     }
 
     public override void Shoot() {
+        GameObject shotLocation = null;
         if (GameObject.Find("Bullets") == null) {
             bullets = new GameObject("Bullets");
         } else {
             bullets = GameObject.Find("Bullets");
         }
 
-        GameObject shotLocation = GameObject.Find("Kunai Location");
+        foreach (Transform child in transform) {
+            if (child.name == "Kunai Location") {
+                shotLocation = child.gameObject;
+            }
+        }
+
         GameObject clone = Instantiate(kunia, shotLocation.transform.position, shotLocation.transform.rotation);
         clone.transform.parent = bullets.transform;
     }

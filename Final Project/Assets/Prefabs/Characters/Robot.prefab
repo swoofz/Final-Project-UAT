@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 114717699064235502}
   m_Layer: 0
   m_Name: Robot
-  m_TagString: Untagged
+  m_TagString: Character
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -345,6 +345,7 @@ MonoBehaviour:
   jumps: 2
   damagePercentage: 0
   bullet: {fileID: 1428403760350956, guid: 9c6daf3096b837240823ca17d0d08847, type: 2}
+  muzzle: {fileID: 1681438032501572, guid: bf7d7209d4e1e1244ba4fa1824234b97, type: 2}
 --- !u!212 &212390011092945710
 SpriteRenderer:
   m_ObjectHideFlags: 1

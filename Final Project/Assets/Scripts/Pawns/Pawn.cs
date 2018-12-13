@@ -57,7 +57,30 @@ public class Pawn : MonoBehaviour {
     }
 
     public virtual void TakeDamage(float damage, float direction, string hitSpot) {
-        // Call to take damage with increase over time of getting hit
+        // Call to take damage with increase over time of getting 
+        Rigidbody2D rb = transform.parent.GetComponent<Rigidbody2D>();
+        Vector2 forceDirection = Vector2.zero;
+        damagePercentage += damage;
+
+
+        if (hitSpot == "Head") {
+            forceDirection = new Vector2(0.8f * direction, -1f) * damage;
+            if (IsGrounded()) {
+                forceDirection = new Vector2(0.8f, .2f) * direction * damage;
+            }
+        }
+
+        if (hitSpot == "Body") {
+            forceDirection = new Vector2(1f, .2f) * direction * damage;
+        }
+
+        if (hitSpot == "Legs") {
+            forceDirection = new Vector2(0.8f * direction, 1f) * damage;
+        }
+
+        rb.AddForce(forceDirection * damagePercentage);
+
+        // For now every pawn take damage the same
     }
 
     public virtual void Shoot() {

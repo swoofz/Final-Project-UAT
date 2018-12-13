@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Robot : Pawn {
 
-    public GameObject bullet;
+    public GameObject bullet, muzzle;
 
     private GameObject bullets;
 
@@ -35,14 +35,22 @@ public class Robot : Pawn {
     }
 
     public override void Shoot() {
+        GameObject shotLocation = null;
         if (GameObject.Find("Bullets") == null) {
             bullets = new GameObject("Bullets");
         } else {
             bullets = GameObject.Find("Bullets");
         }
 
-        GameObject shotLocation = GameObject.Find("Shoot");
-        GameObject clone = Instantiate(bullet, shotLocation.transform.position, shotLocation.transform.rotation);
+        foreach (Transform child in transform) {
+            if (child.name == "Shoot") {
+                shotLocation = child.gameObject;
+            }
+        }
+        GameObject clone = Instantiate(muzzle, shotLocation.transform.position, shotLocation.transform.rotation);
+        clone.transform.parent = bullets.transform;
+        Destroy(clone, 0.4f);
+        clone = Instantiate(bullet, shotLocation.transform.position, shotLocation.transform.rotation);
         clone.transform.parent = bullets.transform;
     }
 
