@@ -195,6 +195,7 @@ public class AIController : Controller {
             }
             if (hitTarget == "Head" || hitTarget == "Body" || hitTarget == "Legs") {
                 if (this.hitTarget != null) {
+                    GameManager.instance.AIDamageTaken += attDamage;
                     this.hitTarget.TakeDamage(attDamage, hitDirection, hitTarget);
                 }
             }

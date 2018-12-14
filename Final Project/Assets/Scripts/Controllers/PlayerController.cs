@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class PlayerController : Controller {
 
-    /*****************************************************************************************
-     * How to make random character selection (probably in the gameManager Script)
-     * private Character character (enum with characters)
-     * private int num for random numbers to pick the character
-     * 
-     * num = Random.Range(0,4);
-     * character = (Characters)num;
-     *****************************************************************************************/
-
     private CharacterState playerState;     // Create a varaible to hold our state
     private float direction;                // Create a varaible to store the direction
     private Rigidbody2D rb;                 // Create a varaible to store our Rigibody component
@@ -84,7 +75,6 @@ public class PlayerController : Controller {
         pawn.MoveDirection(direction);
     }
 
-
     CharacterState ChangeState() {
         if (direction == 0) {
             playerState = CharacterState.Idle;
@@ -139,6 +129,7 @@ public class PlayerController : Controller {
 
             if (hitTarget == "Head" || hitTarget == "Body" || hitTarget == "Legs") {
                 if (target != null) {
+                    GameManager.instance.playerDamageTaken += attDamage;
                     target.TakeDamage(attDamage, hitDirection, hitTarget);
                 }
             }

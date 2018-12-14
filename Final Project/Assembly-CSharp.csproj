@@ -64,13 +64,16 @@
     <Compile Include="Assets\Scripts\Controllers\AIController.cs" />
     <Compile Include="Assets\Scripts\Controllers\Controller.cs" />
     <Compile Include="Assets\Scripts\Controllers\PlayerController.cs" />
+    <Compile Include="Assets\Scripts\CreateCharacter.cs" />
     <Compile Include="Assets\Scripts\Managers\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Managers\UIManager.cs" />
     <Compile Include="Assets\Scripts\Movable\Bullet.cs" />
     <Compile Include="Assets\Scripts\Pawns\Adverturer.cs" />
     <Compile Include="Assets\Scripts\Pawns\Knight.cs" />
     <Compile Include="Assets\Scripts\Pawns\Ninja.cs" />
     <Compile Include="Assets\Scripts\Pawns\Pawn.cs" />
     <Compile Include="Assets\Scripts\Pawns\Robot.cs" />
+    <Compile Include="Assets\Scripts\StartLocations.cs" />
     <Compile Include="Assets\Scripts\TestCreatePlayer.cs" />
     <None Include="Assets\Art\gameart2d.com\Knight\README.txt" />
     <Reference Include="UnityEditor.StandardEvents">

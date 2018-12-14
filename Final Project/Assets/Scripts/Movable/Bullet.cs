@@ -23,6 +23,13 @@ public class Bullet : MonoBehaviour {
                 if (hitTarget == "Head" || hitTarget == "Body" || hitTarget == "Legs") {
                     if (target != null) {
                         target.TakeDamage(damage, transform.right.x, hitTarget);
+                        if (target.transform.parent.tag == "Player") {
+                            GameManager.instance.playerDamageTaken += damage;
+                        }
+                        if (target.transform.parent.tag == "AI") {
+                            GameManager.instance.AIDamageTaken += damage;
+                        }
+
                     }
                 }
             }
