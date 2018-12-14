@@ -30,19 +30,24 @@ public class AIController : Controller {
 
 	// Use this for initialization
 	void Start () {
-        pawn = gameObject.GetComponentInChildren<Pawn>();
-        rb = GetComponent<Rigidbody2D>();
-        SetUpCircleCollider();
-        lives = GameManager.instance.AILives;
-        jumpCount = pawn.jumps;
         cnt = 0.8f;
         jumpTimer = 1f;
+        rb = GetComponent<Rigidbody2D>();
+        lives = GameManager.instance.AILives;
         ChangeOptions(Options.Idle);
+        //pawn = gameObject.GetComponentInChildren<Pawn>();
+        SetUpCircleCollider();
     }
 
 	// Update is called once per frame
 	void Update () {
-        isGrounded = pawn.IsGrounded();
+
+        if (pawn != null) {
+            isGrounded = pawn.IsGrounded();
+        } else {
+            pawn = gameObject.GetComponentInChildren<Pawn>();
+            jumpCount = pawn.jumps;
+        }
 
         if (isGrounded) {
             rb.gravityScale = 0;
@@ -75,11 +80,12 @@ public class AIController : Controller {
             RandomJump();
         }
 
-
-        aiState = ChangeAIState();
-        pawn.ChangeAnimationState(aiState);
-        GetHitDirection();
-        pawn.MoveDirection(direction);
+        if (pawn != null) {
+            aiState = ChangeAIState();
+            pawn.ChangeAnimationState(aiState);
+            GetHitDirection();
+            pawn.MoveDirection(direction);
+        }
     }
 
     // AI Finite State Machine
@@ -183,8 +189,6 @@ public class AIController : Controller {
         }
 
         // Attack logic
-
-        // If attacking first
         if (attacking) {
             string hitTarget = collision.gameObject.name;
             attDamage = pawn.Attack();
@@ -195,7 +199,7 @@ public class AIController : Controller {
             }
             if (hitTarget == "Head" || hitTarget == "Body" || hitTarget == "Legs") {
                 if (this.hitTarget != null) {
-                    GameManager.instance.AIDamageTaken += attDamage;
+                    GameManager.instance.playerDamageTaken += attDamage;
                     this.hitTarget.TakeDamage(attDamage, hitDirection, hitTarget);
                 }
             }
@@ -206,15 +210,20 @@ public class AIController : Controller {
         if (other.gameObject.tag == "Boundary") {
             lives -= 1;
             GameManager.instance.AILives = lives;
-            damagePercent = 0;
+            pawn.damagePercentage = 0;
+            GameManager.instance.AIDamageTaken = 0;
             rb.velocity = Vector2.zero;
-            transform.position = new Vector3(0, 30, 0);
+            if (lives < 0 || GameManager.instance.playerLives < 0) {
+                Destroy(gameObject);
+            } else {
+                transform.position = new Vector3(0, 30, 0);
+            }
         }
     }
 
     void SetUpCircleCollider() {
         circle = GetComponent<CircleCollider2D>();
-        circle.radius = 20;
+        circle.radius = 50;
         circle.isTrigger = true;
     }
 

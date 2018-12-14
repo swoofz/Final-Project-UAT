@@ -8,6 +8,4 @@ public class Controller : MonoBehaviour {
     public enum CharacterState { Idle, Run, Attack, Slide, Jump, Shoot, JumpAtt, Throw }  
 
     public Pawn pawn;       // Create a variable to hold this controller pawn
-
-    [HideInInspector] public float damagePercent;
 }

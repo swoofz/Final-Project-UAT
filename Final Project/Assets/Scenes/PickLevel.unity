@@ -191,7 +191,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 114213935162745474, guid: 1de035e5785afa94db9c535ea14c8d0c,
           type: 2}
-        m_MethodName: ChangeScenes
+        m_MethodName: LoadArena
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

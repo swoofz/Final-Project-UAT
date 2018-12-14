@@ -251,7 +251,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1978220958}
+      - m_Target: {fileID: 114213935162745474, guid: 1de035e5785afa94db9c535ea14c8d0c,
+          type: 2}
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -793,7 +794,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1978220958}
+      - m_Target: {fileID: 114213935162745474, guid: 1de035e5785afa94db9c535ea14c8d0c,
+          type: 2}
         m_MethodName: ToggleScreen
         m_Mode: 2
         m_Arguments:
@@ -1883,7 +1885,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1978220958}
+      - m_Target: {fileID: 114213935162745474, guid: 1de035e5785afa94db9c535ea14c8d0c,
+          type: 2}
         m_MethodName: ChangeScenes
         m_Mode: 5
         m_Arguments:
@@ -2584,7 +2587,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1978220958}
+      - m_Target: {fileID: 114213935162745474, guid: 1de035e5785afa94db9c535ea14c8d0c,
+          type: 2}
         m_MethodName: ToggleScreen
         m_Mode: 2
         m_Arguments:
@@ -2631,9 +2635,3 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1934399005}
   m_CullTransparentMesh: 0
---- !u!114 &1978220958 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114213935162745474, guid: 1de035e5785afa94db9c535ea14c8d0c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1641804325}
-  m_Script: {fileID: 11500000, guid: 166fbf8e6411e7147950b1d1861b9964, type: 3}

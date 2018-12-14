@@ -21,16 +21,20 @@ public class PlayerController : Controller {
 
 	// Use this for initialization
 	void Start () {
-        pawn = gameObject.GetComponentInChildren<Pawn>();
         rb = GetComponent<Rigidbody2D>();
         lives = GameManager.instance.playerLives;
         cnt = 0.35f;
+        //pawn = gameObject.GetComponentInChildren<Pawn>();
     }
 	
 	// Update is called once per frame
 	void Update () {
         direction = Input.GetAxis("Horizontal");
-        isGrounded = pawn.IsGrounded();
+        if (pawn != null) {
+            isGrounded = pawn.IsGrounded();
+        } else {
+            pawn = gameObject.GetComponentInChildren<Pawn>();
+        }
 
 
         if (isGrounded) {
@@ -69,10 +73,12 @@ public class PlayerController : Controller {
             AttackTimer();
         }
 
-        playerState = ChangeState();
-        pawn.ChangeAnimationState(playerState.ToString());
-        GetHitDirection();
-        pawn.MoveDirection(direction);
+        if (pawn != null) {
+            playerState = ChangeState();
+            pawn.ChangeAnimationState(playerState.ToString());
+            GetHitDirection();
+            pawn.MoveDirection(direction);
+        }
     }
 
     CharacterState ChangeState() {
@@ -129,7 +135,7 @@ public class PlayerController : Controller {
 
             if (hitTarget == "Head" || hitTarget == "Body" || hitTarget == "Legs") {
                 if (target != null) {
-                    GameManager.instance.playerDamageTaken += attDamage;
+                    GameManager.instance.AIDamageTaken += attDamage;
                     target.TakeDamage(attDamage, hitDirection, hitTarget);
                 }
             }
@@ -140,9 +146,14 @@ public class PlayerController : Controller {
         if (other.gameObject.tag == "Boundary") {
             lives -= 1;
             GameManager.instance.playerLives = lives;
-            damagePercent = 0;
+            pawn.damagePercentage = 0;
+            GameManager.instance.playerDamageTaken = 0;
             rb.velocity = Vector2.zero;
-            transform.position = new Vector3(0, 30, 0);
+            if (lives < 0 || GameManager.instance.playerLives < 0) {
+                Destroy(gameObject);
+            } else {
+                transform.position = new Vector3(0, 30, 0);
+            }
         }
     }
 
